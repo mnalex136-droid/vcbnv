@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahim Device Manager</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#080b12;
+    color:#fff;
+    min-height:100vh;
+}
+
+header{
+    padding:22px;
+    background:#101521;
+    border-bottom:1px solid #202838;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.online{
+    color:#35e27a;
+    font-size:14px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:25px;
+}
+
+h2{
+    margin-bottom:18px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:#111722;
+    border:1px solid #202a3a;
+    border-radius:14px;
+    padding:20px;
+}
+
+.card small{
+    color:#8993a5;
+}
+
+.value{
+    font-size:25px;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:14px;
+}
+
+button{
+    width:100%;
+    padding:16px;
+    border:1px solid #293449;
+    border-radius:12px;
+    background:#141b28;
+    color:white;
+    cursor:pointer;
+    font-size:14px;
+    transition:.2s;
+}
+
+button:hover{
+    background:#1d2738;
+    transform:translateY(-2px);
+}
+
+.icon{
+    font-size:25px;
+    display:block;
+    margin-bottom:8px;
+}
+
+.section{
+    margin-top:30px;
+}
+
+.console{
+    background:#05070b;
+    border:1px solid #202838;
+    border-radius:12px;
+    padding:15px;
+    height:170px;
+    overflow:auto;
+    color:#78f5a5;
+    font-family:monospace;
+    font-size:13px;
+}
+
+footer{
+    text-align:center;
+    color:#687386;
+    padding:30px;
+}
+
+@media(max-width:600px){
+    .container{
+        padding:15px;
+    }
+
+    header{
+        padding:17px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">📱 Mahim Device Manager</div>
+    <div class="online">● Dashboard Online</div>
+</header>
+
+<div class="container">
+
+    <h2>Device Overview</h2>
+
+    <div class="stats">
+
+        <div class="card">
+            <small>Battery</small>
+            <div class="value" id="battery">--%</div>
+        </div>
+
+        <div class="card">
+            <small>Device</small>
+            <div class="value">Android</div>
+        </div>
+
+        <div class="card">
+            <small>Network</small>
+            <div class="value" id="network">Checking...</div>
+        </div>
+
+        <div class="card">
+            <small>Status</small>
+            <div class="value" style="color:#35e27a">Online</div>
+        </div>
+
+    </div>
+
+    <div class="section">
+        <h2>⚡ Quick Controls</h2>
+
+        <div class="grid">
+
+            <button onclick="command('Flashlight ON')">
+                <span class="icon">🔦</span>
+                Flashlight ON
+            </button>
+
+            <button onclick="command('Flashlight OFF')">
+                <span class="icon">🌑</span>
+                Flashlight OFF
+            </button>
+
+            <button onclick="command('Ring Phone')">
+                <span class="icon">🔔</span>
+                Ring Phone
+            </button>
+
+            <button onclick="command('Vibrate')">
+                <span class="icon">📳</span>
+                Vibrate
+            </button>
+
+            <button onclick="command('Volume Up')">
+                <span class="icon">🔊</span>
+                Volume +
+            </button>
+
+            <button onclick="command('Volume Down')">
+                <span class="icon">🔉</span>
+                Volume -
+            </button>
+
+            <button onclick="command('Brightness')">
+                <span class="icon">☀️</span>
+                Brightness
+            </button>
+
+            <button onclick="command('Device Status')">
+                <span class="icon">📊</span>
+                Device Status
+            </button>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🎵 Media</h2>
+
+        <div class="grid">
+
+            <button onclick="command('Play')">
+                <span class="icon">▶️</span>
+                Play
+            </button>
+
+            <button onclick="command('Pause')">
+                <span class="icon">⏸️</span>
+                Pause
+            </button>
+
+            <button onclick="command('Previous')">
+                <span class="icon">⏮️</span>
+                Previous
+            </button>
+
+            <button onclick="command('Next')">
+                <span class="icon">⏭️</span>
+                Next
+            </button>
+
+            <button onclick="command('Media Information')">
+                <span class="icon">🎶</span>
+                Current Song
+            </button>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📍 Device Utilities</h2>
+
+        <div class="grid">
+
+            <button onclick="command('Location Request')">
+                <span class="icon">📍</span>
+                Location
+            </button>
+
+            <button onclick="command('Battery Information')">
+                <span class="icon">🔋</span>
+                Battery Info
+            </button>
+
+            <button onclick="command('Storage Information')">
+                <span class="icon">💾</span>
+                Storage
+            </button>
+
+            <button onclick="command('Network Information')">
+                <span class="icon">📶</span>
+                Network
+            </button>
+
+            <button onclick="command('Device Information')">
+                <span class="icon">📱</span>
+                Device Info
+            </button>
+
+            <button onclick="command('Find Device')">
+                <span class="icon">🔎</span>
+                Find Device
+            </button>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📂 Personal Files</h2>
+
+        <div class="grid">
+
+            <button onclick="command('Open File Picker')">
+                <span class="icon">📁</span>
+                Files
+            </button>
+
+            <button onclick="command('Select Photos')">
+                <span class="icon">🖼️</span>
+                Select Photos
+            </button>
+
+            <button onclick="command('Backup Selected Files')">
+                <span class="icon">☁️</span>
+                Backup
+            </button>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔔 Notifications</h2>
+
+        <div class="grid">
+
+            <button onclick="sendNotification()">
+                <span class="icon">🔔</span>
+                Test Notification
+            </button>
+
+            <button onclick="command('Battery Alert')">
+                <span class="icon">⚠️</span>
+                Battery Alert
+            </button>
+
+            <button onclick="command('Storage Alert')">
+                <span class="icon">💽</span>
+                Storage Alert
+            </button>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🖥️ Remote Assistance</h2>
+
+        <div class="grid">
+
+            <button onclick="command('Request Screen Share')">
+                <span class="icon">🖥️</span>
+                Screen Share
+            </button>
+
+            <button onclick="command('Start Support Session')">
+                <span class="icon">🛠️</span>
+                Support Session
+            </button>
+
+            <button onclick="command('Device Diagnostics')">
+                <span class="icon">🩺</span>
+                Diagnostics
+            </button>
+
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🤖 Command Console</h2>
+
+        <div class="console" id="console">
+            > Dashboard initialized...<br>
+            > Waiting for device connection...
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    Personal Device Manager • Authorized devices only
+</footer>
+
+<script>
+
+function command(name){
+
+    const consoleBox = document.getElementById("console");
+
+    const time = new Date().toLocaleTimeString();
+
+    consoleBox.innerHTML +=
+        `<br>> [${time}] Command: ${name}`;
+
+    consoleBox.scrollTop = consoleBox.scrollHeight;
+}
+
+function sendNotification(){
+
+    if("Notification" in window){
+
+        Notification.requestPermission().then(permission => {
+
+            if(permission === "granted"){
+
+                new Notification(
+                    "Mahim Device Manager",
+                    {
+                        body:"Test notification received."
+                    }
+                );
+
+                command("Notification Sent");
+
+            }else{
+                command("Notification permission denied");
+            }
+
+        });
+
+    }else{
+
+        command("Browser notification not supported");
+
+    }
+}
+
+/* Battery API */
+
+if("getBattery" in navigator){
+
+    navigator.getBattery().then(battery => {
+
+        function updateBattery(){
+
+            document.getElementById("battery").innerText =
+                Math.round(battery.level * 100) + "%";
+
+        }
+
+        updateBattery();
+
+        battery.addEventListener("levelchange",updateBattery);
+
+    });
+
+}else{
+
+    document.getElementById("battery").innerText = "N/A";
+
+}
+
+/* Network */
+
+function updateNetwork(){
+
+    if(navigator.onLine){
+
+        document.getElementById("network").innerText = "Online";
+
+    }else{
+
+        document.getElementById("network").innerText = "Offline";
+
+    }
+
+}
+
+updateNetwork();
+
+window.addEventListener("online",updateNetwork);
+window.addEventListener("offline",updateNetwork);
+
+</script>
+
+</body>
+</html>
